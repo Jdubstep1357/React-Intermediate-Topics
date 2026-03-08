@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 interface Todo {
   id: number;
@@ -8,13 +8,15 @@ interface Todo {
   completed: boolean;
 }
 
+// state hook - declares state variables
 const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
+  // fetches data from back end and stores in state variable
   useEffect(() => {
     axios
-      .get('https://jsonplaceholder.typicode.com/todos')
+      .get("https://jsonplaceholder.typicode.com/todos")
       .then((res) => setTodos(res.data))
       .catch((error) => setError(error));
   }, []);
