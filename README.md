@@ -20,3 +20,4 @@ This repository belongs to part 2 of my React course covering intermediate-level
 - Routing with React Router 
 
 You can find the course at https://codewithmosh.com
+# React-Intermediate-Topics
