@@ -28,6 +28,8 @@ NOTES
   --2) When a component is mounted
   --3) When window is refocused
 
+--  Query Object
+  -- Object that contains all values from querying set of objects
 
 */
 
