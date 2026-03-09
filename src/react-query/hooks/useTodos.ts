@@ -16,7 +16,6 @@ interface Todo {
 const useToDos = () => {
   const fetchTodos = () =>
     axios
-      // <Todo> returns promise of array
       .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
       .then((res) => res.data);
 
