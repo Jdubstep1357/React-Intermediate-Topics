@@ -16,6 +16,19 @@ NOTES
 - Caching
 -- Process of storing data in a place where it can be accessed more quickly and efficiently in the future
 
+-- staleTime specifies how long data is fresh
+  -- Moment get a piece of data, treated as old. if old, refresh more data
+  -- Use reactdevtools (flower icon) to look more into it
+
+-- Garbage Collection
+  -- inactive query removed from cache after a certain time
+
+-- React Query automatically refreshes stale data under 3 situations:
+  --1) When network is reconnected
+  --2) When a component is mounted
+  --3) When window is refocused
+
+
 */
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
