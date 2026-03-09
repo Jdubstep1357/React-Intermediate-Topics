@@ -36,9 +36,7 @@ const TodoForm = () => {
         </div>
         <div className="col">
           {/* Added loading button while waiting for data */}
-          <button className="btn btn-primary" disabled={addTodo.isLoading}>
-            {addTodo.isLoading ? "Adding..." : "Add"}
-          </button>
+          <button className="btn btn-primary">Add</button>
         </div>
       </form>
     </>

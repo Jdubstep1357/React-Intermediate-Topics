@@ -1,10 +1,11 @@
 // Seperation of concerns - making things easier to see instead of being clogged
 
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import APIClient from "../services/apiClient";
 import { CACHE_KEY_TODOS } from "../constants";
 
 
+const apiClient = new APIClient<Todo>('/todos')
 
 export interface Todo {
   id: number;
@@ -15,14 +16,15 @@ export interface Todo {
 
 
 const useToDos = () => {
-  const fetchTodos = () =>
-    axios
-      .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => res.data);
+
 
 return useQuery<Todo[], Error>({
     queryKey: CACHE_KEY_TODOS,
-    queryFn: fetchTodos,
+    // when reference getAll, this keyword looses context and becomes undefined. hence .bind to connecting object
+    // queryFn: apiClient.getAll.bind(apiClient),
+
+    // referenced by arrow function in apiClient
+    queryFn: apiClient.getAll,
     staleTime: 10 * 1000
   });
 }
