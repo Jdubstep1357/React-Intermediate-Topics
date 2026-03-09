@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -10,22 +11,24 @@ interface Todo {
 
 // state hook - declares state variables
 const TodoList = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [error, setError] = useState("");
-
-  // fetches data from back end and stores in state variable
-  useEffect(() => {
+  const fetchTodos = () =>
     axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => setTodos(res.data))
-      .catch((error) => setError(error));
-  }, []);
+      // <Todo> returns promise of array
+      .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
+      .then((res) => res.data);
 
-  if (error) return <p>{error}</p>;
+  const { data: todos } = useQuery({
+    // unique idetifier for query
+    queryKey: ["todos"],
+    queryFn: fetchTodos,
+  });
+
+  // if (error) return <p>{error}</p>;
 
   return (
     <ul className="list-group">
-      {todos.map((todo) => (
+      {/* data comes from const { data } */}
+      {todos?.map((todo) => (
         <li key={todo.id} className="list-group-item">
           {todo.title}
         </li>
