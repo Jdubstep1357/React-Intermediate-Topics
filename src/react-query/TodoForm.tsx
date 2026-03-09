@@ -12,21 +12,13 @@ const TodoForm = () => {
         .post<Todo>("https://jsonplaceholder.typicode.com/todos", todo)
         .then((res) => res.data),
     onSuccess: (savedTodo, newTodo) => {
-      // Updating the list
-
-      // APPROACH 1: Invalidating the cache
-      // tell react cache is invalid and update backend
-      // queryClient.invalidateQueries({
-      //   queryKey: ["todos"],
-      // });
-
-      // APPROACH 2: Updating the data in the cache directly
-      // todos comes from ts <Todo[]>
       queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
         savedTodo,
-        // updater is function that takes array of todos
         ...(todos || []),
       ]);
+
+      // CLEARS INPUT FIELD after submission
+      if (ref.current) ref.current.value = "";
     },
   });
 
@@ -58,7 +50,10 @@ const TodoForm = () => {
           <input ref={ref} type="text" className="form-control" />
         </div>
         <div className="col">
-          <button className="btn btn-primary">Add</button>
+          {/* Added loading button while waiting for data */}
+          <button className="btn btn-primary" disabled={addTodo.isLoading}>
+            {addTodo.isLoading ? "Adding..." : "Add"}
+          </button>
         </div>
       </form>
     </>
