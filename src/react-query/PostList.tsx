@@ -1,13 +1,14 @@
 import { useState } from "react";
 import usePosts from "./hooks/usePosts";
+import React from "react";
 
 const PostList = () => {
   const pageSize = 10;
-  const [page, setPage] = useState(1);
 
   // userId is part of filtering
   //
-  const { data, error, isLoading } = usePosts({ page, pageSize });
+  const { data, error, isLoading, fetchNextPage, isFetchingNextPage } =
+    usePosts({ pageSize });
 
   if (isLoading) return <p>Loading in waiting</p>;
 
@@ -16,25 +17,24 @@ const PostList = () => {
   return (
     <>
       <ul className="list-group">
-        {data?.map((post) => (
-          <li key={post.id} className="list-group-item">
-            {post.title}
-          </li>
+        {/* Instance of inifnite data - Loop over pages and render data for each page seperately */}
+        {data.pages.map((page, index) => (
+          <React.Fragment key={index}>
+            {page.map((post) => (
+              <li key={post.id} className="list-group-item">
+                {post.title}
+              </li>
+            ))}
+          </React.Fragment>
         ))}
       </ul>
       {/* button disabled on 1st page */}
       <button
-        disabled={page === 1}
-        className="btn btn-primary my-3"
-        onClick={() => setPage(page - 1)}
+        className="btn btn-primary my-3 ms-1"
+        disabled={isFetchingNextPage}
+        onClick={() => fetchNextPage()}
       >
-        Previous
-      </button>
-      <button
-        className="btn btn-primary ms-1"
-        onClick={() => setPage(page + 1)}
-      >
-        Next
+        {isFetchingNextPage ? "Loading..." : "Load More"}
       </button>
     </>
   );
