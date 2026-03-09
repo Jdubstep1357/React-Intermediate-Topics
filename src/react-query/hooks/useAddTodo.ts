@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Todo } from "./useTodos";
-import axios from "axios";
 import { CACHE_KEY_TODOS } from "../constants";
 import APIClient from "../services/apiClient";
+import todoService, { Todo } from "../services/todoService";
 
-const apiClient = new APIClient<Todo>('/todos');
 
 
 
@@ -20,7 +18,7 @@ const useAddTodo = (onAdd: () => void) => {
 
   // info on useMutation<1, 2, 3>: 1) Tdata - Todo object 2) TObject - Error, 3) T variable - Data sent to backend, ie: Todo
   return useMutation<Todo, Error, Todo, AddTodoContext>({
-    mutationFn: apiClient.post,
+    mutationFn: todoService.post,
 
     onMutate: (newTodo: Todo) => {
       // previous todos before update cache. if error, roll back to this

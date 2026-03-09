@@ -1,18 +1,11 @@
 // Seperation of concerns - making things easier to see instead of being clogged
 
 import { useQuery } from "@tanstack/react-query";
-import APIClient from "../services/apiClient";
 import { CACHE_KEY_TODOS } from "../constants";
+import todoService, { Todo } from "../services/todoService";
 
 
-const apiClient = new APIClient<Todo>('/todos')
 
-export interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-}
 
 
 const useToDos = () => {
@@ -24,7 +17,7 @@ return useQuery<Todo[], Error>({
     // queryFn: apiClient.getAll.bind(apiClient),
 
     // referenced by arrow function in apiClient
-    queryFn: apiClient.getAll,
+    queryFn: todoService.getAll,
     staleTime: 10 * 1000
   });
 }
