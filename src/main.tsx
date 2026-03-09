@@ -13,6 +13,16 @@ const queryClient = new QueryClient();
 
 /*
 NOTES
+
+
+-- APPLICATION LAYERS
+  -- BOTTOM: API Client - Sending HTTP requests to backend
+  -- ABOVE: HTTP SERVICES - todoService - API instances of API client dedicated to working with specific types of objects
+  -- ABOVE: Custom Hooks - useTodos, useAddTodo - fetch and update data and manage data in cache
+  -- TOP: Components - todoForm, todoList - What people see
+
+
+
 - Caching
 -- Process of storing data in a place where it can be accessed more quickly and efficiently in the future
 
