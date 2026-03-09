@@ -1,32 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-
-interface Todo {
-  id: number;
-  title: string;
-  userId: number;
-  completed: boolean;
-}
+import useTodos from "./hooks/useTodos";
 
 // state hook - declares state variables
 const TodoList = () => {
-  const fetchTodos = () =>
-    axios
-      // <Todo> returns promise of array
-      .get<Todo[]>("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => res.data);
+  // concerned with markup
+  const { data: todos, error, isLoading } = useTodos();
 
-  const {
-    data: todos,
-    error,
-    isLoading,
-  } = useQuery<Todo[], Error>({
-    // unique idetifier for query
-    queryKey: ["todos"],
-    queryFn: fetchTodos,
-  });
-
+  // Loading Icon
   if (isLoading) return <p>Loading</p>;
 
   if (error) return <p>{error.message}</p>;
